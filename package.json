@@ -1,0 +1,26 @@
+{
+  "name": "@progfay/playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/progfay/playground.git"
+  },
+  "keywords": [
+    "playground"
+  ],
+  "author": "progfay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/progfay/playground/issues"
+  },
+  "homepage": "https://github.com/progfay/playground#readme",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  }
+}
