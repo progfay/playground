@@ -1,4 +1,5 @@
 import _Console from 'console'
+import chalk from 'chalk'
 
 interface Console {
   readonly _console: typeof _Console,
@@ -19,7 +20,7 @@ export const play = (func: (console: Console) => void) => {
     _indentText: '    ',
 
     group: (name, func) => {
-      process.stdout.write(console._indentText.repeat(console._indentCount) + name + '\n')
+      process.stdout.write(console._indentText.repeat(console._indentCount) + chalk.blueBright(name) + '\n')
       console._indentCount++
       func(console)
       console._indentCount--
