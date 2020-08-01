@@ -11,45 +11,45 @@ import type { Unit } from './types'
 type StateSetter<T> = Dispatch<SetStateAction<T>>
 
 class ConsoleStream extends Writable {
-	setLines: StateSetter<string[]>
+  setLines: StateSetter<string[]>
 
-	constructor(setLines: StateSetter<string[]>) {
-		super()
-		this.setLines = setLines
-	}
+  constructor (setLines: StateSetter<string[]>) {
+    super()
+    this.setLines = setLines
+  }
 
-  _write(chunk: Buffer, _: string, callback: () => void) {
-		this.setLines(lines => [...lines, chunk.toString('utf-8').replace(/\n$/, '')])
+  _write (chunk: Buffer, _: string, callback: () => void): void {
+    this.setLines(lines => [...lines, chunk.toString('utf-8').replace(/\n$/, '')])
     callback()
   }
 }
 
 interface ConsoleBoxProps extends BoxProps {
-	unit: Unit
+  unit: Unit
 }
 
 export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => {
-	const [lines, setLines] = useState<string[]>([])
+  const [lines, setLines] = useState<string[]>([])
 
-	useEffect(() => {
-		const console = new Console({
-			stdout: new ConsoleStream(setLines),
-			stderr: new ConsoleStream(setLines),
-			colorMode: true
-		})
+  useEffect(() => {
+    const console = new Console({
+      stdout: new ConsoleStream(setLines),
+      stderr: new ConsoleStream(setLines),
+      colorMode: true
+    })
 
-		unit(console)
-	}, [])
+    unit(console)
+  }, [])
 
-	const maxLineNumberDigitLength = lines.length.toString().length
+  const maxLineNumberDigitLength = lines.length.toString().length
 
-	return (
+  return (
     <Box flexDirection='column' {...boxProps}>
-			{
-				lines.map((line, i) => (
-					<Line key={i} lineNumber={(i + 1).toString().padStart(maxLineNumberDigitLength, ' ')} text={line} />
-				))
-			}
+      {
+        lines.map((line, i) => (
+          <Line key={i} lineNumber={(i + 1).toString().padStart(maxLineNumberDigitLength, ' ')} text={line} />
+        ))
+      }
     </Box>
-	)
+  )
 }

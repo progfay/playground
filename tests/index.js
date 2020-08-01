@@ -26,7 +26,7 @@ play([
           'fifth',
           console => {
             console.log(1234)
-          },
+          }
         ]
       ]
     ]
