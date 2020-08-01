@@ -1,4 +1,4 @@
-const { play } = require('./lib')
+const { play } = require('../lib')
 
 play([
   'first',
