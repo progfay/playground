@@ -3,10 +3,11 @@ import { Box, Text, Newline } from 'ink'
 import { Writable } from 'stream'
 import { Console } from 'console'
 
+import type { Dispatch, SetStateAction } from 'react'
+import type { BoxProps } from 'ink'
 import type { Unit } from './types'
 
 type StateSetter<T> = Dispatch<SetStateAction<T>>
-import type { Dispatch, SetStateAction } from 'react'
 
 class ConsoleStream extends Writable {
 	setLines: StateSetter<string[]>
@@ -22,11 +23,11 @@ class ConsoleStream extends Writable {
   }
 }
 
-interface BlockProps {
+interface BlockProps extends BoxProps {
 	unit: Unit
 }
 
-export const Block: React.FC<BlockProps> = ({ unit }) => {
+export const Block: React.FC<BlockProps> = ({ unit, ...boxProps }) => {
 	const [lines, setLines] = useState<string[]>([])
 
 	useEffect(() => {
@@ -40,16 +41,13 @@ export const Block: React.FC<BlockProps> = ({ unit }) => {
 	}, [])
 
 	return (
-		<>
-			<Box borderStyle="single" marginLeft={2}>
-				<Text>
-					{lines.flatMap((line, i, arr) => ([
-						<Text key={`text-${i}`}> {line} </Text>,
-						i !== arr.length - 1 ? <Newline key={`newline-${i}`} /> : null
-					]))}
-				</Text>
-			</Box>
-			<Newline />
-		</>
+    <Box {...boxProps}>
+      <Text>
+        {lines.flatMap((line, i, arr) => ([
+          <Text key={`text-${i}`}> {line} </Text>,
+          i !== arr.length - 1 ? <Newline key={`newline-${i}`} /> : null
+        ]))}
+      </Text>
+    </Box>
 	)
 }

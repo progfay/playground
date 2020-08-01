@@ -13,13 +13,13 @@ interface SectionProps {
 }
 
 export const Section: React.FC<SectionProps> = ({ group }) => {
-	if (isUnit(group)) return <Block unit={group} />
+	if (isUnit(group)) return <Block borderStyle='single' unit={group} />
 
 	const [title, ...subgroups] = group
 	return (
 		<>
 			<Text> {title} </Text>
-			<Box marginLeft={2} padding={0} flexDirection="column">
+			<Box paddingLeft={2} flexDirection="column">
 				{
 					subgroups.map((subgroup, i) => (
 						<Section key={`${title}-${i}`} group={subgroup} />
