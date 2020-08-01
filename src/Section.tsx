@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Box, Text } from 'ink'
-import { Block } from './Block'
+import { ConsoleBox } from './ConsoleBox'
 import type { Unit, Group } from './types'
 
 function isUnit(group: Group): group is Unit {
@@ -13,7 +13,7 @@ interface SectionProps {
 }
 
 export const Section: React.FC<SectionProps> = ({ group }) => {
-	if (isUnit(group)) return <Block borderStyle='single' unit={group} />
+	if (isUnit(group)) return <ConsoleBox borderStyle='single' unit={group} />
 
 	const [title, ...subgroups] = group
 	return (

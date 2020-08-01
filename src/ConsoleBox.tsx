@@ -23,11 +23,11 @@ class ConsoleStream extends Writable {
   }
 }
 
-interface BlockProps extends BoxProps {
+interface ConsoleBoxProps extends BoxProps {
 	unit: Unit
 }
 
-export const Block: React.FC<BlockProps> = ({ unit, ...boxProps }) => {
+export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => {
 	const [lines, setLines] = useState<string[]>([])
 
 	useEffect(() => {
