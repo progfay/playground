@@ -25,7 +25,7 @@ export const Line: React.FC<LineProps> = ({ lineNumber, text }) => {
 				<Text color='gray'>{ '│\n'.repeat(height).trimEnd() }</Text>
 			</Box>
 			<Box ref={ref}>
-				<Text> {text} </Text>
+				<Text>{text}</Text>
 			</Box>
 		</Box>
 	)

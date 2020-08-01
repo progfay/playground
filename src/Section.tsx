@@ -18,7 +18,7 @@ export const Section: React.FC<SectionProps> = ({ group }) => {
 	const [title, ...subgroups] = group
 	return (
 		<>
-			<Text> {title} </Text>
+			<Text>{title}</Text>
 			<Box paddingLeft={2} flexDirection="column">
 				{
 					subgroups.map((subgroup, i) => (
