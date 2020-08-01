@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Text, Newline } from 'ink'
+import { Box } from 'ink'
 import { Writable } from 'stream'
 import { Console } from 'console'
+import { Line } from './Line'
 
 import type { Dispatch, SetStateAction } from 'react'
 import type { BoxProps } from 'ink'
@@ -40,14 +41,15 @@ export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => 
 		unit(console)
 	}, [])
 
+	const maxLineNumberDigitLength = lines.length.toString().length
+
 	return (
-    <Box {...boxProps}>
-      <Text>
-        {lines.flatMap((line, i, arr) => ([
-          <Text key={`text-${i}`}> {line} </Text>,
-          i !== arr.length - 1 ? <Newline key={`newline-${i}`} /> : null
-        ]))}
-      </Text>
+    <Box flexDirection='column' {...boxProps}>
+			{
+				lines.map((line, i) => (
+					<Line key={i} lineNumber={(i + 1).toString().padStart(maxLineNumberDigitLength, ' ')} text={line} />
+				))
+			}
     </Box>
 	)
 }

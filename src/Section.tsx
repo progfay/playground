@@ -13,7 +13,7 @@ interface SectionProps {
 }
 
 export const Section: React.FC<SectionProps> = ({ group }) => {
-	if (isUnit(group)) return <ConsoleBox borderStyle='single' unit={group} />
+	if (isUnit(group)) return <ConsoleBox borderStyle='round' borderColor='gray' unit={group} />
 
 	const [title, ...subgroups] = group
 	return (
