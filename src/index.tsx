@@ -7,5 +7,5 @@ import type { Group } from './types'
 
 type PlayFunction = (group: Group, opts?: NodeJS.WriteStream | RenderOptions) => void
 export const play: PlayFunction = (group, opts) => {
-  render(<Section group={group} />, opts)
+  render(<Section level={0} group={group} />, opts)
 }
