@@ -9,7 +9,7 @@ play([
   [
     'second',
     console => {
-      console.log('hoge', 'fuga')
+      console.log(JSON.parse(NaN))
     },
     console => {
       console.log(`t${'o'.repeat(300)} long`)

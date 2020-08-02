@@ -38,7 +38,11 @@ export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => 
       colorMode: true
     })
 
-    unit(console)
+    try {
+      unit(console)
+    } catch (e) {
+      console.error(e.toString())
+    }
   }, [])
 
   const maxLineNumberDigitLength = lines.length.toString().length
