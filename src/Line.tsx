@@ -20,7 +20,7 @@ export const Line: React.FC<LineProps> = ({ lineNumber, text }) => {
 
   return (
     <Box>
-      <Text color='gray'>{lineNumber}</Text>
+      <Text color='gray' bold>{` ${lineNumber} `}</Text>
       <Box width={1}>
         <Text color='gray'>{'│\n'.repeat(height).trimEnd()}</Text>
       </Box>
