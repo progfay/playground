@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Box, Text, measureElement } from 'ink'
 
-import type { DOMElement } from 'ink/build/dom'
+import type { DOMElement } from 'ink'
 
 interface LineProps {
   lineNumber: string
