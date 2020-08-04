@@ -7,6 +7,7 @@ import { Line } from './Line'
 import type { Dispatch, SetStateAction } from 'react'
 import type { BoxProps } from 'ink'
 import type { Unit } from './types'
+import { nextTick } from 'process'
 
 type StateSetter<T> = Dispatch<SetStateAction<T>>
 
@@ -38,11 +39,13 @@ export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => 
       colorMode: true
     })
 
-    try {
-      unit(console)
-    } catch (e) {
-      console.error(e.toString())
-    }
+    nextTick(async (console: Console) => {
+      try {
+        await unit(console)
+      } catch (e) {
+        console.error(e.toString())
+      }
+    }, console)
   }, [])
 
   const maxLineNumberDigitLength = lines.length.toString().length
