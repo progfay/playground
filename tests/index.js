@@ -39,3 +39,13 @@ play([
     ]
   ]
 ])
+
+play((group, unit) => {
+  group('adfad', (group, unit) => {
+    group('hoge', (group, unit) => {
+      unit('unit', (console) => {
+        console.log(2345)
+      })
+    })
+  })
+})
