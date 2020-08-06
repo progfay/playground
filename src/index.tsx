@@ -1,39 +1,65 @@
-import React, { useState } from 'react'
-import { render } from 'ink'
+import React, { useEffect, useState } from 'react'
+import { render, Box } from 'ink'
+import { v4 as uuidv4 } from 'uuid'
+import { GroupBox } from './GroupBox'
 
-import type { Play, Bundle, Run, Pack } from './types'
+import type { Play, Nest, Bundle, Run, Pack } from './types'
+import { UnitBox } from './UnitBox'
+import { nextTick } from 'process'
 
-export const play: Play = (nest, opts?) => {
+interface Props {
+  nest: Nest
+}
+
+const App: React.FC<Props> = ({ nest }) => {
   const [packs, setPacks] = useState<Pack[]>([])
 
-  const bundle: Bundle = (name, nest) => {
-    setPacks(states => [...states, { type: 'group', name, uuid: '', nest }])
-  }
+  useEffect(() => {
+    nextTick(() => {
+      const bundle: Bundle = (name, nest) => {
+        setPacks(states => [...states, {
+          type: 'group',
+          uuid: uuidv4(),
+          level: 0,
+          name,
+          nest
+        }])
+      }
 
-  const run: Run = (name, func) => {
-    setPacks(states => [...states, { type: 'unit', name, uuid: '', func }])
-  }
+      const run: Run = (name, func) => {
+        setPacks(states => [...states, {
+          type: 'unit',
+          uuid: uuidv4(),
+          level: 0,
+          name,
+          func
+        }])
+      }
 
-  nest(bundle, run)
+      nest(bundle, run)
+    })
+  }, [])
 
-  const App: React.FC = () => (
-    <>
+  return (
+    <Box flexDirection='column'>
       {
-        packs.map(pack => {
+        packs.map((pack, i) => {
           switch (pack.type) {
             case 'group':
-              return null
+              return <GroupBox key={`group-top-${i}`} {...pack} />
 
             case 'unit':
-              return null
+              return <UnitBox key={`unit-top-${i}`} {...pack} />
 
             default:
               return null
           }
         })
       }
-    </>
+    </Box>
   )
+}
 
-  render(<App />, opts)
+export const play: Play = (nest, opts?) => {
+  render(<App nest={nest} />, opts)
 }

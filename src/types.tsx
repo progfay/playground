@@ -11,6 +11,7 @@ export interface Group {
   name: string
   uuid: string
   nest: Nest
+  level: number
 }
 
 export interface Unit {
@@ -18,6 +19,7 @@ export interface Unit {
   name: string
   uuid: string
   func: Func
+  level: number
 }
 
 export type Pack = Group | Unit

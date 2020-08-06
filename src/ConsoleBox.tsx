@@ -6,7 +6,7 @@ import { Line } from './Line'
 
 import type { Dispatch, SetStateAction } from 'react'
 import type { BoxProps } from 'ink'
-import type { Unit } from './types'
+import type { Func } from './types'
 import { nextTick } from 'process'
 
 type StateSetter<T> = Dispatch<SetStateAction<T>>
@@ -26,10 +26,10 @@ class ConsoleStream extends Writable {
 }
 
 interface ConsoleBoxProps extends BoxProps {
-  unit: Unit
+  func: Func
 }
 
-export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => {
+export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ func, ...boxProps }) => {
   const [lines, setLines] = useState<string[]>([])
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => 
 
     nextTick(async (console: Console) => {
       try {
-        await unit(console)
+        await func(console)
       } catch (e) {
         console.error(e.toString())
       }
@@ -54,7 +54,7 @@ export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ unit, ...boxProps }) => 
     <Box flexDirection='column' {...boxProps}>
       {
         lines.map((line, i) => (
-          <Line key={i} lineNumber={(i + 1).toString().padStart(maxLineNumberDigitLength, ' ')} text={line} />
+          <Line key={`line-${i}`} lineNumber={(i + 1).toString().padStart(maxLineNumberDigitLength, ' ')} text={line} />
         ))
       }
     </Box>
