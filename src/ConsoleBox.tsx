@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box } from 'ink'
+import { Box, useApp } from 'ink'
 import { Writable } from 'stream'
 import { Console } from 'console'
 import { Line } from './Line'
@@ -7,7 +7,6 @@ import { Line } from './Line'
 import type { Dispatch, SetStateAction } from 'react'
 import type { BoxProps } from 'ink'
 import type { Func } from './types'
-import { nextTick } from 'process'
 
 type StateSetter<T> = Dispatch<SetStateAction<T>>
 
@@ -31,21 +30,25 @@ interface ConsoleBoxProps extends BoxProps {
 
 export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ func, ...boxProps }) => {
   const [lines, setLines] = useState<string[]>([])
+  const { exit } = useApp()
 
   useEffect(() => {
-    const console = new Console({
-      stdout: new ConsoleStream(setLines),
-      stderr: new ConsoleStream(setLines),
-      colorMode: true
-    })
+    new Promise((resolve) => {
+      const console = new Console({
+        stdout: new ConsoleStream(setLines),
+        stderr: new ConsoleStream(setLines),
+        colorMode: true
+      })
 
-    nextTick(async (console: Console) => {
       try {
-        await func(console)
+        func(console)
       } catch (e) {
         console.error(e.toString())
+      } finally {
+        resolve()
       }
-    }, console)
+    })
+      .catch(exit)
   }, [])
 
   const maxLineNumberDigitLength = lines.length.toString().length

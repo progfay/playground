@@ -1,18 +1,18 @@
 
 import React, { useEffect, useState } from 'react'
-import { Box } from 'ink'
+import { Box, useApp } from 'ink'
 import { v4 as uuidv4 } from 'uuid'
 import { UnitBox } from './UnitBox'
+import { Title } from './Title'
 
 import type { Bundle, Run, Group, Pack } from './types'
-import { nextTick } from 'process'
-import { Title } from './Title'
 
 export const GroupBox: React.FC<Group> = ({ name, uuid, level, nest }) => {
   const [packs, setPacks] = useState<Pack[]>([])
+  const { exit } = useApp()
 
   useEffect(() => {
-    nextTick(() => {
+    new Promise(resolve => {
       const bundle: Bundle = (name, nest) => {
         setPacks(states => [...states, {
           type: 'group',
@@ -35,6 +35,7 @@ export const GroupBox: React.FC<Group> = ({ name, uuid, level, nest }) => {
 
       nest(bundle, run)
     })
+      .catch(exit)
   }, [])
 
   return (

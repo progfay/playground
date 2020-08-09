@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { render, Box } from 'ink'
+import { render, Box, useApp } from 'ink'
 import { v4 as uuidv4 } from 'uuid'
 import { GroupBox } from './GroupBox'
 
 import type { Play, Nest, Bundle, Run, Pack } from './types'
 import { UnitBox } from './UnitBox'
-import { nextTick } from 'process'
 
 interface Props {
   nest: Nest
@@ -13,9 +12,10 @@ interface Props {
 
 const App: React.FC<Props> = ({ nest }) => {
   const [packs, setPacks] = useState<Pack[]>([])
+  const { exit } = useApp()
 
   useEffect(() => {
-    nextTick(() => {
+    new Promise(resolve => {
       const bundle: Bundle = (name, nest) => {
         setPacks(states => [...states, {
           type: 'group',
@@ -37,7 +37,9 @@ const App: React.FC<Props> = ({ nest }) => {
       }
 
       nest(bundle, run)
+      resolve()
     })
+      .catch(exit)
   }, [])
 
   return (
