@@ -16,7 +16,7 @@ export const Line: React.FC<LineProps> = ({ lineNumber, text }) => {
     if (ref.current === null) return
     const { height } = measureElement(ref.current)
     setHeight(height)
-  }, [])
+  })
 
   return (
     <Box>
