@@ -1,8 +1,15 @@
 {
   "name": "@progfay/playground",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Framework to tasting something with Node.js 😋",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "lint": "eslint -c ./.eslintrc.js .",
@@ -17,7 +24,7 @@
     "playground"
   ],
   "author": "progfay",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/progfay/playground/issues"
   },
