@@ -11,7 +11,9 @@
     "access": "public"
   },
   "scripts": {
+    "prebuild": "rm -rf lib",
     "build": "tsc",
+    "prepare": "npm run build",
     "lint": "eslint -c ./.eslintrc.js .",
     "lint:fix": "eslint -c ./.eslintrc.js . --fix",
     "test": "node tests/index.js"
