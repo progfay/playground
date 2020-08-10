@@ -2,6 +2,15 @@
 
 Framework to tasting something with Node.js 😋
 
+## Installation
+
+[![npm version](https://img.shields.io/npm/v/@progfay/playground?style=for-the-badge&message=NPM&color=CB3837&logo=NPM&labelColor=222222&label=npm)](https://www.npmjs.com/package/@progfay/playground)
+
+```sh
+npm i -D @progfay/playground
+```
+
+
 ## Features
 
 - Display playground result in hierarchical structure
