@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { render, Box, useApp } from 'ink'
 import { v4 as uuidv4 } from 'uuid'
-import { GroupBox } from './GroupBox'
+import { PackBox } from './PackBox'
 
-import type { Play, Nest, Bundle, Run, Pack } from './types'
+import type { Play, Nest, Group, Run, Assort } from './types'
 import { UnitBox } from './UnitBox'
 
 interface Props {
@@ -11,14 +11,14 @@ interface Props {
 }
 
 const App: React.FC<Props> = ({ nest }) => {
-  const [packs, setPacks] = useState<Pack[]>([])
+  const [assorts, setAssorts] = useState<Assort[]>([])
   const { exit } = useApp()
 
   useEffect(() => {
     new Promise(resolve => {
-      const bundle: Bundle = (name, nest) => {
-        setPacks(states => [...states, {
-          type: 'group',
+      const group: Group = (name, nest) => {
+        setAssorts(states => [...states, {
+          type: 'pack',
           uuid: uuidv4(),
           level: 0,
           name,
@@ -27,7 +27,7 @@ const App: React.FC<Props> = ({ nest }) => {
       }
 
       const run: Run = (name, func) => {
-        setPacks(states => [...states, {
+        setAssorts(states => [...states, {
           type: 'unit',
           uuid: uuidv4(),
           level: 0,
@@ -36,7 +36,7 @@ const App: React.FC<Props> = ({ nest }) => {
         }])
       }
 
-      nest(bundle, run)
+      nest(group, run)
       resolve()
     })
       .catch(exit)
@@ -45,13 +45,13 @@ const App: React.FC<Props> = ({ nest }) => {
   return (
     <Box flexDirection='column'>
       {
-        packs.map((pack, i) => {
-          switch (pack.type) {
-            case 'group':
-              return <GroupBox key={`group-top-${i}`} {...pack} />
+        assorts.map((assort, i) => {
+          switch (assort.type) {
+            case 'pack':
+              return <PackBox key={`group-top-${i}`} {...assort} />
 
             case 'unit':
-              return <UnitBox key={`unit-top-${i}`} {...pack} />
+              return <UnitBox key={`unit-top-${i}`} {...assort} />
 
             default:
               return null

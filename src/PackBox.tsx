@@ -5,17 +5,17 @@ import { v4 as uuidv4 } from 'uuid'
 import { UnitBox } from './UnitBox'
 import { Title } from './Title'
 
-import type { Bundle, Run, Group, Pack } from './types'
+import type { Run, Group, Pack, Assort } from './types'
 
-export const GroupBox: React.FC<Group> = ({ name, uuid, level, nest }) => {
-  const [packs, setPacks] = useState<Pack[]>([])
+export const PackBox: React.FC<Pack> = ({ name, uuid, level, nest }) => {
+  const [assorts, setAssorts] = useState<Assort[]>([])
   const { exit } = useApp()
 
   useEffect(() => {
     new Promise(resolve => {
-      const bundle: Bundle = (name, nest) => {
-        setPacks(states => [...states, {
-          type: 'group',
+      const group: Group = (name, nest) => {
+        setAssorts(states => [...states, {
+          type: 'pack',
           uuid: uuidv4(),
           level: level + 1,
           name,
@@ -24,7 +24,7 @@ export const GroupBox: React.FC<Group> = ({ name, uuid, level, nest }) => {
       }
 
       const run: Run = (name, func) => {
-        setPacks(states => [...states, {
+        setAssorts(states => [...states, {
           type: 'unit',
           uuid: uuidv4(),
           level: level + 1,
@@ -33,7 +33,7 @@ export const GroupBox: React.FC<Group> = ({ name, uuid, level, nest }) => {
         }])
       }
 
-      nest(bundle, run)
+      nest(group, run)
     })
       .catch(exit)
   }, [])
@@ -43,13 +43,13 @@ export const GroupBox: React.FC<Group> = ({ name, uuid, level, nest }) => {
       <Title text={name} level={level} />
       <Box paddingLeft={2} flexDirection='column'>
         {
-          packs.map((pack, i) => {
-            switch (pack.type) {
-              case 'group':
-                return <GroupBox key={`group-${uuid}-${i}`} {...pack} />
+          assorts.map((assort, i) => {
+            switch (assort.type) {
+              case 'pack':
+                return <PackBox key={`group-${uuid}-${i}`} {...assort} />
 
               case 'unit':
-                return <UnitBox key={`unit-${uuid}-${i}`} {...pack} />
+                return <UnitBox key={`unit-${uuid}-${i}`} {...assort} />
 
               default:
                 return null

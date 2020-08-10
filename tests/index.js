@@ -2,14 +2,14 @@ const { play } = require('../lib')
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-play((bundle, run) => {
+play((group, run) => {
   run('first', async console => {
     console.log('hoge', 'fuga')
     await sleep(1000)
     console.log('piyo', 'buzz')
   })
 
-  bundle('second', (bundle, run) => {
+  group('second', (group, run) => {
     run('error handling', () => {
       console.log(JSON.parse(NaN))
       console.log('piyo', 'buzz')
@@ -28,8 +28,8 @@ play((bundle, run) => {
     })
   })
 
-  bundle('nest', (bundle, run) => {
-    bundle('re:nest', (bundle, run) => {
+  group('nest', (group, run) => {
+    group('re:nest', (group, run) => {
       run('re:re:nest', console => {
         console.log(1234)
       })

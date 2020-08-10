@@ -14,8 +14,8 @@ Framework to tasting something with Node.js 😋
 ## Syntax
 
 ```js
-play((bundle, run) => {
-  bundle('grouping', (bundle, run) => {
+play((group, run) => {
+  group('grouping', (group, run) => {
     run('execute playground', console => {
       console.log('yummy 😋')
     })
@@ -44,19 +44,19 @@ play((bundle, run) => {
 - No support for multiple `play` function call
 - Exported type: `play: Play`
 
-#### `nest: (bundle, run) => void`
+#### `nest: (group, run) => void`
 
 - Exported type: `nest: Nest`
 
-##### `bundle: (name, nest) => void`
+##### `group: (name, nest) => void`
 
-- Bundle some playgrounds or sub-bundles
-- Exported type: `bundle: Bundle`
+- Group some playgrounds or sub-groups
+- Exported type: `group: Group`
 
 
 ###### `name: string`
 
-- Name of group which is bundled
+- Name of group which is groupd
 
 
 ###### `nest: Nest`
