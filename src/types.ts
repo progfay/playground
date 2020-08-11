@@ -1,6 +1,6 @@
 import type { RenderOptions } from 'ink'
 
-export type Func = (console: Console) => void
+export type Func = (console: Console) => (void | Promise<void>)
 export type Run = (name: string, func: Func) => void
 export type Nest = (group: Group, run: Run) => void
 export type Group = (name: string, nest: Nest) => void
@@ -23,3 +23,4 @@ export interface Unit {
 }
 
 export type Assort = Pack | Unit
+export type Status = 'Running' | 'Success' | 'Failed'

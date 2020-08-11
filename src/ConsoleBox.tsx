@@ -9,9 +9,11 @@ import type { Func } from './types'
 
 interface ConsoleBoxProps extends BoxProps {
   func: Func
+  onSuccess?: () => void
+  onFailed?: (e: Error) => void
 }
 
-export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ func, ...boxProps }) => {
+export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ func, onSuccess, onFailed, ...boxProps }) => {
   const [lines, setLines] = useState<string[]>([])
   const { exit } = useApp()
 
@@ -20,7 +22,7 @@ export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ func, ...boxProps }) => 
   }, [])
 
   useEffect(() => {
-    new Promise((resolve) => {
+    const run = async (func: Func): Promise<void> => {
       const console = new Console({
         stdout: new ConsoleStream(handler),
         stderr: new ConsoleStream(handler),
@@ -28,13 +30,15 @@ export const ConsoleBox: React.FC<ConsoleBoxProps> = ({ func, ...boxProps }) => 
       })
 
       try {
-        func(console)
+        await func(console)
+        onSuccess?.()
       } catch (e) {
         console.error(e.toString())
-      } finally {
-        resolve()
+        onFailed?.(e as Error)
       }
-    })
+    }
+
+    run(func)
       .catch(exit)
   }, [])
 
