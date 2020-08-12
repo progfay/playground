@@ -11,7 +11,10 @@ export class ConsoleStream extends Writable {
   }
 
   _write (chunk: Buffer, _: string, callback: () => void): void {
-    this.handler(chunk.toString('utf-8').replace(/\n$/, ''))
+    const lines = chunk.toString('utf-8').replace(/\n$/, '').split('\n')
+    for (const line of lines) {
+      this.handler(line)
+    }
     callback()
   }
 }
