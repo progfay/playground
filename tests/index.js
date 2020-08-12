@@ -30,6 +30,11 @@ play((group, run) => {
     run('multi-line', async console => {
       console.log('line1\nline2')
     })
+
+    run('multi-line', console => {
+      console.log(new Date(), '\n↑string↓\n', new Date())
+      console.log('\x1b[33myellow\nyellow\x1b[0m')
+    })
   })
 
   group('nest', (group, run) => {
