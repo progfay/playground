@@ -26,6 +26,10 @@ play((group, run) => {
         console.log(new Date())
       }
     })
+
+    run('multi-line', async console => {
+      console.log('line1\nline2')
+    })
   })
 
   group('nest', (group, run) => {
