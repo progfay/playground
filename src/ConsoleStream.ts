@@ -1,4 +1,6 @@
 import { Writable } from 'stream'
+import sliceAnsi from 'slice-ansi'
+import stripAnsi from 'strip-ansi'
 
 type ConsoleHandler = (line: string) => void
 
@@ -11,9 +13,19 @@ export class ConsoleStream extends Writable {
   }
 
   _write (chunk: Buffer, _: string, callback: () => void): void {
-    const lines = chunk.toString('utf-8').replace(/\n$/, '').split('\n')
-    for (const line of lines) {
-      this.handler(line)
+    const original = chunk.toString('utf-8').replace(/\n$/, '')
+    const stripped = stripAnsi(original)
+    let left = 0
+
+    while (true) {
+      const right = stripped.indexOf('\n', left)
+      if (right === -1) {
+        this.handler(sliceAnsi(original, left))
+        break
+      }
+
+      this.handler(sliceAnsi(original, left, right))
+      left = right + 1
     }
     callback()
   }
